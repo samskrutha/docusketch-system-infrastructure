@@ -1,13 +1,25 @@
+provider "aws" {
+  region = var.region
+}
+
+module "vpc" {
+  source = "./modules/vpc"
+
+  vpc_name  = var.vpc_name
+  cidr_block = var.cidr_block
+}
+
 module "eks" {
-  source           = "./modules/eks"
-  cluster_name     = var.cluster_name
-  role_arn         = aws_iam_role.eks_role.arn
-  subnet_ids       = var.subnet_ids
-  node_group_name  = var.node_group_name
-  node_role_arn    = aws_iam_role.eks_node_role.arn
-  desired_capacity = var.desired_capacity
-  max_size         = var.max_size
-  min_size         = var.min_size
+  source = "./modules/eks"
+
+  cluster_name        = var.cluster_name
+  role_arn            = aws_iam_role.eks_role.arn
+  subnet_ids          = module.vpc.public_subnets
+  node_group_name     = var.node_group_name
+  node_role_arn       = aws_iam_role.eks_node_role.arn
+  desired_capacity    = var.desired_capacity
+  max_size            = var.max_size
+  min_size            = var.min_size
 }
 
 resource "aws_iam_role" "eks_role" {

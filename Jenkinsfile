@@ -1,12 +1,17 @@
 pipeline {
     agent any
     environment {
-        AWS_CREDENTIALS_ID = 'aws-credentials'  
+        AWS_CREDENTIALS_ID = 'aws-credentials'     
     }
     stages {
         stage('Checkout') {
             steps {
                 git branch: 'main', url: 'https://github.com/samskrutha/docusketch-system-infrastructure.git'
+            }
+        }
+        stage('Verify Terraform Installation') {
+            steps {
+                sh 'terraform -version'
             }
         }
         stage('Terraform Init') {
@@ -19,7 +24,7 @@ pipeline {
         stage('Terraform Plan') {
             steps {
                 withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: "${AWS_CREDENTIALS_ID}"]]) {
-                    sh 'terraform plan -out=tfplan'
+                    sh 'terraform plan -var-file=terraform.tfvars -out=tfplan'
                 }
             }
         }
