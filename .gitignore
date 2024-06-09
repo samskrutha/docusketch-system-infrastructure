@@ -6,16 +6,12 @@
 *.terraform.lock.hcl
 out
 
-
 # Crash log files
 crash.log
 
 # Exclude CLI configuration files
 .terraformrc
 terraform.rc
-
-# Terraform variable files
-
 
 # Ignore override files as they are usually used to override resources locally
 override.tf
