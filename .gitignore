@@ -1,0 +1,40 @@
+# Terraform
+**/.terraform/*
+*.terraform
+*.tfstate
+*.tfstate.*
+*.terraform.lock.hcl
+out
+
+
+# Crash log files
+crash.log
+
+# Exclude CLI configuration files
+.terraformrc
+terraform.rc
+
+# Terraform variable files
+
+
+# Ignore override files as they are usually used to override resources locally
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Ignore sensitive data
+# Add any other files containing sensitive data here, like
+# environment-specific variable files that contain sensitive information.
+secrets.tfvars
+
+# Ignore plan output
+*.tfplan
+
+# Ignore .DS_Store file on macOS
+.DS_Store
+
+# Ignore system files
+*.log
+*.bak
+*.swp
