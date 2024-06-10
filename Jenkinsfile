@@ -44,8 +44,8 @@ pipeline {
                     if (checkovStatus != 0) {
                         echo "Checkov found issues, but continuing the pipeline."
                     }
-                    sh 'ls -al'
-                    sh 'cat checkov-report.json || echo "checkov-report.json not found"'
+                    sh 'ls -al checkov-report.json'
+                    sh 'cat checkov-report.json/results_cli.txt || echo "results_cli.txt not found"'
                 }
             }
         }
@@ -72,8 +72,12 @@ pipeline {
             cleanWs()
         }
         success {
-            archiveArtifacts artifacts: 'checkov-report.json', allowEmptyArchive: true
-            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: '', reportFiles: 'checkov-report.json', reportName: 'Checkov Report', reportTitles: 'Checkov Report'])
+            script {
+                sh 'ls -al checkov-report.json'
+                sh 'cat checkov-report.json/results_cli.txt || echo "results_cli.txt not found"'
+            }
+            archiveArtifacts artifacts: 'checkov-report.json/results_cli.txt', allowEmptyArchive: true
+            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'checkov-report.json', reportFiles: 'results_cli.txt', reportName: 'Checkov Report', reportTitles: 'Checkov Report'])
         }
     }
 }

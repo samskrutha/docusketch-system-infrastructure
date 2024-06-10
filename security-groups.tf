@@ -64,7 +64,7 @@ resource "aws_route_table" "public" {
 }
 
 resource "aws_route_table_association" "public" {
-  count = 2
+  count          = 2
   subnet_id      = element(module.vpc.public_subnets, count.index)
   route_table_id = aws_route_table.public.id
 }
