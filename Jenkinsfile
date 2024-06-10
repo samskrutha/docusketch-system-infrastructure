@@ -44,6 +44,7 @@ pipeline {
                     if (checkovStatus != 0) {
                         echo "Checkov found issues, but continuing the pipeline."
                     }
+                    archiveArtifacts artifacts: 'checkov-report.json/results_cli.txt', allowEmptyArchive: true
                 }
             }
         }
@@ -67,11 +68,8 @@ pipeline {
     post {
         success {
             script {
-                sh 'ls -al checkov-report.json'
-                sh 'cat checkov-report.json/results_cli.txt || echo "results_cli.txt not found"'
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'checkov-report.json', reportFiles: 'results_cli.txt', reportName: 'Checkov Report', reportTitles: 'Checkov Report'])
             }
-            archiveArtifacts artifacts: 'checkov-report.json/results_cli.txt', allowEmptyArchive: true
-            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'checkov-report.json', reportFiles: 'results_cli.txt', reportName: 'Checkov Report', reportTitles: 'Checkov Report'])
         }
         always {
             echo 'Cleaning workspace...'
