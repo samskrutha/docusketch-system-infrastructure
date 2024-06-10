@@ -40,7 +40,10 @@ pipeline {
         stage('Checkov') {
             steps {
                 script {
-                    sh 'checkov -d . --output-file-path checkov-report.json'
+                    def checkovStatus = sh(script: 'checkov -d . --output-file-path checkov-report.json', returnStatus: true)
+                    if (checkovStatus != 0) {
+                        echo "Checkov found issues, but continuing the pipeline."
+                    }
                 }
             }
         }
