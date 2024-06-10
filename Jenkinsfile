@@ -39,9 +39,6 @@ pipeline {
         stage('Checkov') {
             steps {
                 script {
-                    if (!fileExists('/usr/local/bin/checkov')) {
-                        sh 'pip install checkov'
-                    }
                     sh 'checkov -d . --output-file-path checkov-report.json'
                 }
             }
@@ -69,8 +66,7 @@ pipeline {
             cleanWs()
         }
         success {
-            archiveArtifacts artifacts: 'infracost-report.html, checkov-report.json', allowEmptyArchive: true
-            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: '', reportFiles: 'infracost-report.html', reportName: 'Infracost Report', reportTitles: 'Infracost Report'])
+            archiveArtifacts artifacts: 'checkov-report.json', allowEmptyArchive: true
             publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: '', reportFiles: 'checkov-report.json', reportName: 'Checkov Report', reportTitles: 'Checkov Report'])
         }
     }
