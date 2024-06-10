@@ -4,6 +4,9 @@ pipeline {
         AWS_CREDENTIALS_ID = 'aws-credentials'
         PATH = "${env.PATH}:/home/ubuntu/.local/bin"
     }
+    parameters {
+        booleanParam(name: 'DESTROY_INFRA', defaultValue: false, description: 'Check this to destroy the infrastructure')
+    }
     stages {
         stage('Verify Terraform Installation') {
             steps {
@@ -61,6 +64,17 @@ pipeline {
                 echo 'Applying Terraform plan...'
                 withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: "${AWS_CREDENTIALS_ID}"]]) {
                     sh 'terraform apply tfplan'
+                }
+            }
+        }
+        stage('Terraform Destroy') {
+            when {
+                expression { return params.DESTROY_INFRA }
+            }
+            steps {
+                echo 'Destroying Terraform-managed infrastructure...'
+                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: "${AWS_CREDENTIALS_ID}"]]) {
+                    sh 'terraform destroy -auto-approve -var-file=terraform.tfvars'
                 }
             }
         }
