@@ -2,13 +2,9 @@ pipeline {
     agent any
     environment {
         INFRACOST_API_KEY = credentials('infracost-api-key')  
+        AWS_CREDENTIALS_ID = 'aws-credentials'
     }
     stages {
-        stage('Checkout') {
-            steps {
-                git branch: 'main', url: 'https://github.com/samskrutha/docusketch-system-infrastructure.git'
-            }
-        }
         stage('Verify Terraform Installation') {
             steps {
                 echo 'Verifying Terraform installation...'
