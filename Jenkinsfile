@@ -2,6 +2,7 @@ pipeline {
     agent any
     environment {
         AWS_CREDENTIALS_ID = 'aws-credentials'
+        PATH = "${env.PATH}:/home/ubuntu/.local/bin"
     }
     stages {
         stage('Verify Terraform Installation') {
