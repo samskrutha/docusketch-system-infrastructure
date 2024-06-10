@@ -1,7 +1,6 @@
 pipeline {
     agent any
     environment {
-        INFRACOST_API_KEY = credentials('infracost-api-key')  
         AWS_CREDENTIALS_ID = 'aws-credentials'
     }
     stages {
@@ -34,17 +33,6 @@ pipeline {
                 script {
                     def tfplan = readFile('tfplan.json')
                     echo tfplan
-                }
-            }
-        }
-        stage('Infracost') {
-            steps {
-                script {
-                    if (!fileExists('/usr/local/bin/infracost')) {
-                        sh 'curl -sSL https://github.com/infracost/infracost/releases/latest/download/infracost-linux-amd64.tar.gz | tar xz -C /usr/local/bin'
-                    }
-                    sh 'infracost breakdown --path . --format json --out-file infracost.json --api-key ${INFRACOST_API_KEY}'
-                    sh 'infracost report --path infracost.json --format html --out-file infracost-report.html'
                 }
             }
         }
