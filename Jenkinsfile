@@ -40,7 +40,7 @@ pipeline {
         stage('Checkov') {
             steps {
                 script {
-                    sh 'checkov -d . --output-file-path checkov-report.json'
+                    sh 'sudo /home/ubuntu/.local/bin/checkov -d . --output-file-path checkov-report.json'
                 }
             }
         }
