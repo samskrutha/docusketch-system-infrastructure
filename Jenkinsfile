@@ -44,6 +44,8 @@ pipeline {
                     if (checkovStatus != 0) {
                         echo "Checkov found issues, but continuing the pipeline."
                     }
+                    sh 'ls -al'
+                    sh 'cat checkov-report.json || echo "checkov-report.json not found"'
                 }
             }
         }
