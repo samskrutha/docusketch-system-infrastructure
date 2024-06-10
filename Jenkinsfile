@@ -2,6 +2,7 @@ pipeline {
     agent any
     environment {
         AWS_CREDENTIALS_ID = 'aws-credentials'
+        CHECKOV_PATH = '/home/ubuntu/checkov_venv/bin/checkov'
     }
     stages {
         stage('Verify Terraform Installation') {
@@ -39,7 +40,7 @@ pipeline {
         stage('Checkov') {
             steps {
                 script {
-                    sh 'checkov -d . --output-file-path checkov-report.json'
+                    sh '${CHECKOV_PATH} -d . --output-file-path checkov-report.json'
                 }
             }
         }
