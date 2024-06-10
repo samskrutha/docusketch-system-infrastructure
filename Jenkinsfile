@@ -66,11 +66,6 @@ pipeline {
         }
     }
     post {
-        success {
-            script {
-                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'checkov-report.json', reportFiles: 'results_cli.txt', reportName: 'Checkov Report', reportTitles: 'Checkov Report'])
-            }
-        }
         always {
             echo 'Cleaning workspace...'
             cleanWs()
