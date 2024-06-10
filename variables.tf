@@ -45,9 +45,3 @@ variable "min_size" {
   type        = number
   default     = 1
 }
-
-variable "ssh_key_name" {
-  description = "The SSH key name for the EKS node group"
-  type        = string
-  default     = "eksKeyPair"
-}

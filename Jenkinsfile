@@ -18,7 +18,7 @@ pipeline {
             steps {
                 echo 'Initializing Terraform...'
                 withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: "${AWS_CREDENTIALS_ID}"]]) {
-                    sh 'terraform init'
+                    sh 'terraform init -upgrade'
                 }
             }
         }

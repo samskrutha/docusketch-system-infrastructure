@@ -6,4 +6,3 @@ node_group_name  = "docusketch-node-group"
 desired_capacity = 2
 max_size         = 3
 min_size         = 1
-ssh_key_name     = "eksKeyPair"

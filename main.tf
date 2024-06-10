@@ -16,6 +16,5 @@ module "eks" {
   min_size                  = var.min_size
   cluster_security_group_id = aws_security_group.eks_cluster_sg.id
   node_security_group_id    = aws_security_group.eks_node_sg.id
-  ssh_key_name              = var.ssh_key_name
   node_role_name            = aws_iam_role.eks_node_role.name
 }
